@@ -2,6 +2,8 @@ const express = require("express");
 const app = express();
 const cors = require("cors");
 const port = 3042;
+const {recoverSenderAddress} = require('./crypto')
+
 
 app.use(cors());
 app.use(express.json());
@@ -19,7 +21,17 @@ app.get("/balance/:address", (req, res) => {
 });
 
 app.post("/send", (req, res) => {
-  const { sender, recipient, amount } = req.body;
+  const { signature, recipient, amount } = req.body;
+
+  // Lets construct the message first
+  const message = {
+    recipient,
+    amount
+  }
+
+  // Lets recover senderAddress
+  const sender = recoverSenderAddress(message,signature)
+  console.log(sender)
 
   setInitialBalance(sender);
   setInitialBalance(recipient);
