@@ -32,7 +32,7 @@ function Transfer({setBalance}) {
       <label>
         Signed Transaction
         <input
-          placeholder="signed message with user prv key"
+          placeholder="recoveryBit + signed msg"
           value={signature}
           onChange={setValue(setSignature)}
         ></input>
